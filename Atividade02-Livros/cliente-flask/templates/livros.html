@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <title>Cliente da API de Livros</title>
+</head>
+<body>
+  <h1>Livros (consumindo a API Laravel)</h1>
+
+  {% if erros %}
+    <ul style="color:red">
+      {% for campo, msgs in erros.items() %}
+        {% for m in msgs %}<li>{{ m }}</li>{% endfor %}
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+  <form method="post" action="/livros">
+    <input name="titulo" placeholder="Título">
+    <input name="autor" placeholder="Autor">
+    <input name="ano_publicacao" type="number" placeholder="Ano">
+    <button>Adicionar</button>
+  </form>
+
+  <table border="1" cellpadding="6">
+    <tr><th>ID</th><th>Título</th><th>Autor</th><th>Ano</th><th></th></tr>
+    {% for l in livros %}
+    <tr>
+      <td>{{ l.id }}</td>
+      <td>{{ l.titulo }}</td>
+      <td>{{ l.autor }}</td>
+      <td>{{ l.ano_publicacao or '-' }}</td>
+      <td>
+        <form method="post" action="/livros/{{ l.id }}/excluir">
+          <button>Excluir</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+</body>
+</html>
